@@ -24,10 +24,12 @@ function insert(post) {
     .then(ids => ({ id: ids[0] }));
 }
 
-function update(id, post) {
-  return db('posts')
+async function update(id, post) {
+  await db('posts')
     .where('id', Number(id))
     .update(post);
+
+  return findById(Number(id));
 }
 
 function remove(id) {
