@@ -66,18 +66,45 @@ router.post('/', (req, res) => {
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
 
-  remove(id)
-    .then((post) => {
-      if (post) {
-        res.status(200).json(post);
-      } else {
-        res.status(404)
-          .json({ message: "The post with the specified ID does not exist." });
-      }
-    })
-    .catch(() => {
-      res.status(500).json({ error: "The post could not be removed" });
-    })
+   findById(id)
+     .then((post) => {
+       if (post.length) {
+
+         remove(id).then(()=> {
+           res.status(200).json(post);
+         }).catch(() => {
+             res.status(500).json({ error: "The post could not be removed" });
+           })
+       } else {
+         res.status(404)
+           .json({ message: "The post with the specified ID does not exist." });
+       }
+     })
+     .catch(() => {
+       res.status(500).json({ error: "The post could not be removed" });
+     })
+
 });
+
+// router.delete('/:id', (req, res) => {
+//   const { id } = req.params;
+//
+//  // This code works with the async remove function commented out in db.js @line 39
+//
+//   remove(id)
+//     .then((post) => {
+//       console.log('POST:', post);
+//       if (post.length) {
+//
+//         res.status(200).json(post);
+//       } else {
+//         res.status(404)
+//           .json({ message: "The post with the specified ID does not exist." });
+//       }
+//     })
+//     .catch(() => {
+//       res.status(500).json({ error: "The post could not be removed" });
+//     })
+// });
 
 module.exports = router;

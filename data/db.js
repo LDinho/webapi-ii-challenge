@@ -35,3 +35,19 @@ function remove(id) {
     .where('id', Number(id))
     .del();
 }
+
+// async function remove(id) {
+//
+//   try {
+//     const post = await findById(Number(id));
+//
+//     await db('posts')
+//       .where('id', Number(id))
+//       .del();
+//
+//     return post;
+//
+//   } catch (e) {
+//     return Promise.reject(new Error(e))
+//   }
+// }
