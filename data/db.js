@@ -24,10 +24,12 @@ function insert(post) {
     .then(ids => ({ id: ids[0] }));
 }
 
-function update(id, post) {
-  return db('posts')
+async function update(id, post) {
+  await db('posts')
     .where('id', Number(id))
     .update(post);
+
+  return findById(Number(id));
 }
 
 function remove(id) {
@@ -35,3 +37,19 @@ function remove(id) {
     .where('id', Number(id))
     .del();
 }
+
+// async function remove(id) {
+//
+//   try {
+//     const post = await findById(Number(id));
+//
+//     await db('posts')
+//       .where('id', Number(id))
+//       .del();
+//
+//     return post;
+//
+//   } catch (e) {
+//     return Promise.reject(new Error(e))
+//   }
+// }
